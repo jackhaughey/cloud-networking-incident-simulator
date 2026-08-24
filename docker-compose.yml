@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+  r1:
+    image: frrouting/frr:latest
+    hostname: r1
+    volumes:
+      - ./network/frr/r1/frr.conf:/etc/frr/frr.conf
+    networks:
+      net-core:
+        ipv4_address: 10.0.0.11
+
+  r2:
+    image: frrouting/frr:latest
+    hostname: r2
+    volumes:
+      - ./network/frr/r2/frr.conf:/etc/frr/frr.conf
+    networks:
+      net-core:
+        ipv4_address: 10.0.0.12
+      net-edge:
+        ipv4_address: 10.0.1.12
+
+  r3:
+    image: frrouting/frr:latest
+    hostname: r3
+    volumes:
+      - ./network/frr/r3/frr.conf:/etc/frr/frr.conf
+    networks:
+      net-edge:
+        ipv4_address: 10.0.1.13
+
+  vpn:
+    build: ./network/vpn
+    hostname: vpn
+    networks:
+      net-edge:
+        ipv4_address: 10.0.1.20
+
+  lb:
+    build: ./services/lb
+    hostname: lb
+    depends_on:
+      - app1
+      - app2
+    networks:
+      net-edge:
+        ipv4_address: 10.0.1.30
+    ports:
+      - "8080:80"
+
+  app1:
+    build: ./services/app1
+    hostname: app1
+    networks:
+      net-edge:
+        ipv4_address: 10.0.1.101
+
+  app2:
+    build: ./services/app2
+    hostname: app2
+    networks:
+      net-edge:
+        ipv4_address: 10.0.1.102
+
+networks:
+  net-core:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+
+  net-edge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24
