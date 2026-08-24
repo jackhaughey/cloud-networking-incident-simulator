@@ -4,8 +4,14 @@ services:
   r1:
     image: frrouting/frr:latest
     hostname: r1
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
     volumes:
-      - ./network/frr/r1/frr.conf:/etc/frr/frr.conf
+      - ./network/frr/r1/frr.conf:/etc/frr/frr.conf:z
+      - ./network/frr/daemons:/etc/frr/daemons:z
+      - ./network/frr/vtysh.conf:/etc/frr/vtysh.conf:z
     networks:
       net-core:
         ipv4_address: 10.0.0.11
@@ -13,8 +19,14 @@ services:
   r2:
     image: frrouting/frr:latest
     hostname: r2
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
     volumes:
-      - ./network/frr/r2/frr.conf:/etc/frr/frr.conf
+      - ./network/frr/r2/frr.conf:/etc/frr/frr.conf:z
+      - ./network/frr/daemons:/etc/frr/daemons:z
+      - ./network/frr/vtysh.conf:/etc/frr/vtysh.conf:z
     networks:
       net-core:
         ipv4_address: 10.0.0.12
@@ -24,8 +36,14 @@ services:
   r3:
     image: frrouting/frr:latest
     hostname: r3
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
     volumes:
-      - ./network/frr/r3/frr.conf:/etc/frr/frr.conf
+      - ./network/frr/r3/frr.conf:/etc/frr/frr.conf:z
+      - ./network/frr/daemons:/etc/frr/daemons:z
+      - ./network/frr/vtysh.conf:/etc/frr/vtysh.conf:z
     networks:
       net-edge:
         ipv4_address: 10.0.1.13
