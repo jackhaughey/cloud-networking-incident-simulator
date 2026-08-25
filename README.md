@@ -37,7 +37,4 @@ It includes:
 
 ```bash
 docker compose up -d
-# wait for convergence
-python tools/python/bgp_route_monitor.py
-python tools/python/log_analyzer.py
 ```
