@@ -38,3 +38,11 @@ It includes:
 ```bash
 docker compose up -d
 ```
+
+## Still to do
+1. Check the Python code
+2. Check incidents work (or don't) as expected.
+3. Build a version that allows manual configuration
+4. Add endpoints to either end.
+5. Introduce a way of disrupting traffic randomly for troubleshooting.
+6. Add wireshark
